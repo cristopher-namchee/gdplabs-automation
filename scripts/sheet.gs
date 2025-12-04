@@ -131,12 +131,12 @@ function synchronizeWFOSheet() {
       updateBandungSheet(workweekLocations);
     }
 
-    GmailApp.sendEmail(self, '✅ [WFO Sheet] Synchronization Successful', '', {
+    GmailApp.sendEmail(self, '✅ [WeeFo] Synchronization Successful', '', {
       htmlBody: `
         <div style="font-family: Helvetica, Arial, sans-serif; color: #333; line-height: 1.6;">
           <h2>✅ Synchronization Successful</h2>
 
-          <p><b>WFO Sheet Synchronizer</b> has successfully synchronized your ${bandungSheet ? '<b>GLAIR</b> and <b>Bandung</b>' : '<b>GLAIR</b>'} WFO sheets with the following parameters:</p>
+          <p><b>WeeFo</b> has successfully synchronized your ${bandungSheet ? '<b>GLAIR</b> and <b>Bandung</b>' : '<b>GLAIR</b>'} WFO sheets with the following parameters:</p>
 
           <table style="border-collapse: collapse; width: 100%; max-width: 400px;">
             <thead>
@@ -163,17 +163,17 @@ function synchronizeWFOSheet() {
           <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
 
           <p style="font-size: 13px; color: #666;">
-            This is an automated message from <b>WFO Sheet Synchronizer</b>.
+            This is an automated message from <b>WeeFo</b>.
           </p>
         </div>`,
     });
   } catch (err) {
-    GmailApp.sendEmail(self, '⚠️ [WFO Sheet] Synchronization Failed', '', {
+    GmailApp.sendEmail(self, '⚠️ [WeeFo] Synchronization Failed', '', {
       htmlBody: `
         <div style="font-family: Helvetica, Arial, sans-serif; color: #333; line-height: 1.6;">
           <h2 style="color: #d93025;">⚠️ Synchronization Failed</h2>
 
-          <p><b>WFO Sheet Synchronizer</b> encountered an error during execution:</p>
+          <p><b>WeeFo</b> encountered an error during execution:</p>
 
           <div style="background-color: #f8d7da; border: 1px solid #f5c2c7; padding: 10px 15px; border-radius: 6px; margin: 10px 0;">
             <pre style="margin: 0; font-family: Consolas, monospace; white-space: pre-wrap;">${err.message}</pre>
@@ -191,7 +191,7 @@ function synchronizeWFOSheet() {
           <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
 
           <p style="font-size: 13px; color: #666;">
-            This is an automated message from <b>WFO Sheet Synchronizer</b>.
+            This is an automated message from <b>WeeFo</b>.
           </p>
         </div>`,
     });
@@ -201,12 +201,12 @@ function synchronizeWFOSheet() {
 function sendSynchronizationReminder() {
   const self = Session.getActiveUser().getEmail();
 
-  GmailApp.sendEmail(self, '⏱️ [WFO Sheet] Synchronization Reminder', '', {
+  GmailApp.sendEmail(self, '⏱️ [WeeFo] Synchronization Reminder', '', {
     htmlBody: `
       <div style="font-family: Helvetica, Arial, sans-serif; color: #333; line-height: 1.6;">
         <h2>⏱️ Synchronization Reminder</h2>
 
-        <p><b>WFO Sheet Synchronizer</b> is about to perform synchronization to ${bandungSheet ? '<b>GLAIR</b> and <b>Bandung</b>' : '<b>GLAIR</b>'} WFO sheets.</p>
+        <p><b>WeeFo</b> is about to perform synchronization to ${bandungSheet ? '<b>GLAIR</b> and <b>Bandung</b>' : '<b>GLAIR</b>'} WFO sheets.</p>
 
         <p>
           Please make sure to <a href="https://support.google.com/calendar/answer/7638168?hl=en&co=GENIE.Platform%3DDesktop">fill in your working location</a> in your
@@ -216,7 +216,7 @@ function sendSynchronizationReminder() {
         <hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">
 
         <p style="font-size: 13px; color: #666;">
-          This is an automated message from your <b>WFO Sheet Automation</b> script.
+          This is an automated message from your <b>WeeFo</b> script.
         </p>
       </div>
     `

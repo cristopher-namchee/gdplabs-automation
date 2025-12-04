@@ -1,4 +1,4 @@
-# WFO Day Synchronizer
+# WeeFo
 
 A [Google Apps Script](https://developers.google.com/apps-script) that synchronizes your [Google Calendar's Working Location](https://support.google.com/calendar/answer/7638168?hl=en&co=GENIE.Platform%3DDesktop)
 with GLAIR's WFO Sheet.
