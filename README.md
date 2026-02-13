@@ -25,17 +25,11 @@ with GLAIR's WFO Sheet.
 2. Create a new project
 3. Paste the contents of `src/sheet.gs` to `Code.gs` in the editor.
 4. Navigate to the 'Project Settings' tab
-5. Add your employee ID to the script properties as `EMPLOYEE_ID`
-6. Deploy the script by clicking Deploy > New Deployment
-7. Select 'Library' type by clicking the cog icon. (Optional) Fill the description. Press 'Deploy'
-8. Navigate to the 'Triggers' tab. Select 'Add Trigger' button on the bottom right of the interface.
-9. Select `synchornizeWFOSheet` as the function to run, configure the time-based timer to Week timer and suitable time of day as you like.
-10. (Optional) Create a new trigger for `sendSynchronizationReminder` with time-based timer that ideally runs before `synchronizeWFOSheet` on weekly basis.
-
-### Bandung Synchronizer
-
-1. Navigate to the 'Project Settings' tab
-2. Add Bandung Sheet ID `1XObyMQdM9aFkbyAyg8vMDyYcz9d_WtmlZq3sMihfFQM` to the script properties as `BANDUNG_SHEET_ID`
+5. Deploy the script by clicking Deploy > New Deployment
+6. Select 'Library' type by clicking the cog icon. (Optional) Fill the description. Press 'Deploy'
+7. Navigate to the 'Triggers' tab. Select 'Add Trigger' button on the bottom right of the interface.
+8. Select `synchornizeWFOSheet` as the function to run, configure the time-based timer to Week timer and suitable time of day as you like.
+9. (Optional) Create a new trigger for `sendSynchronizationReminder` with time-based timer that ideally runs before `synchronizeWFOSheet` on weekly basis.
 
 ## Notes
 
