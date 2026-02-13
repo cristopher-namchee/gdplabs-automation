@@ -1,8 +1,6 @@
-const employeeId = PropertiesService.getScriptProperties().getProperty('EMPLOYEE_ID');
-const bandungSheet = PropertiesService.getScriptProperties().getProperty('BANDUNG_SHEET_ID');
-
-// this should be static
-const glairSheet = '1yKOIFZ7R67XCjiMc6DwwJicHeLx5iv91lVKAYuYrWuU';
+const WFOSheets = {
+  Bandung: '1XObyMQdM9aFkbyAyg8vMDyYcz9d_WtmlZq3sMihfFQM',
+}
 
 const Location = {
   Home: 'Home',
@@ -60,33 +58,6 @@ function getNextMonday() {
   return today;
 }
 
-function updateGlairSheet(locations) {
-  const ss = SpreadsheetApp.openById(glairSheet);
-  const sheet = ss.getSheets()[0];
-
-  // find user's row
-  const userCell = sheet.createTextFinder(employeeId).findNext();
-  if (!userCell) {
-    throw new Error('Cannot find corresponding employee in GLAIR sheet. Please double-check the EMPLOYEE_ID variable.');
-  }
-
-  const row = userCell.getRow();
-
-  const headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0]
-    .map(val => isValidDate(val) ? formatDate(new Date(val)) : val);
-
-  for (const [date, location] of Object.entries(locations)) {
-    const column = headers.findIndex((header) => header === date);
-    if (!column) {
-      throw new Error('WFO sheet is outdated. Please sync the WFO sheet manually.');
-    }
-
-    // Google Spreadsheet is 1-based, in contrast of 0-based that we use to store arrays
-    const range = sheet.getRange(row, column + 1);
-    range.setValue(location === Location.Office ? true : false);
-  }
-}
-
 // Really tricky, might not work
 function getName() {
   const emailSubject = GmailApp.getDrafts()[0].getMessage().getHeader("From");
@@ -96,7 +67,7 @@ function getName() {
 }
 
 function updateBandungSheet(locations) {
-  const ss = SpreadsheetApp.openById(bandungSheet);
+  const ss = SpreadsheetApp.openById(WFOSheets.Bandung);
   const sheet = ss.getSheets()[3];
 
   const userCell = sheet.createTextFinder(getName()).findNext();
@@ -119,24 +90,17 @@ function synchronizeWFOSheet() {
   const self = Session.getActiveUser().getEmail();
 
   try {
-    if (!employeeId) {
-      throw new Error('It seems like you haven\'t set up the script properly. Please follow the instruction from the README file carefully.');
-    }
-
     const referenceDate = getNextMonday();
     const workweekLocations = getWorkweekLocations(referenceDate);
 
-    updateGlairSheet(workweekLocations);
-    if (bandungSheet) {
-      updateBandungSheet(workweekLocations);
-    }
+    updateBandungSheet(workweekLocations);
 
     GmailApp.sendEmail(self, '✅ [WeeFo] Synchronization Successful', '', {
       htmlBody: `
         <div style="font-family: Helvetica, Arial, sans-serif; color: #333; line-height: 1.6;">
           <h2>✅ Synchronization Successful</h2>
 
-          <p><b>WeeFo</b> has successfully synchronized your ${bandungSheet ? '<b>GLAIR</b> and <b>Bandung</b>' : '<b>GLAIR</b>'} WFO sheets with the following parameters:</p>
+          <p><b>WeeFo</b> has successfully synchronized your WFO sheets with the following parameters:</p>
 
           <table style="border-collapse: collapse; width: 100%; max-width: 400px;">
             <thead>
@@ -145,7 +109,7 @@ function synchronizeWFOSheet() {
                 <th style="padding: 8px 12px; border: 1px solid #ddd; text-align: left;">Location</th>
               </tr>
             </thead>
-      
+
             <tbody>
               ${Object.entries(workweekLocations)
                 .map(
@@ -182,7 +146,7 @@ function synchronizeWFOSheet() {
           <p>
             <b>Recommended Actions:</b>
           </p>
-      
+
           <ol>
             <li>Check the resulting sheet for partial or incorrect data.</li>
             <li>Review the Apps Script logs (<code>Executions</code> tab).</li>
@@ -206,7 +170,7 @@ function sendSynchronizationReminder() {
       <div style="font-family: Helvetica, Arial, sans-serif; color: #333; line-height: 1.6;">
         <h2>⏱️ Synchronization Reminder</h2>
 
-        <p><b>WeeFo</b> is about to perform synchronization to ${bandungSheet ? '<b>GLAIR</b> and <b>Bandung</b>' : '<b>GLAIR</b>'} WFO sheets.</p>
+        <p><b>WeeFo</b> is about to perform synchronization to WFO sheets.</p>
 
         <p>
           Please make sure to <a href="https://support.google.com/calendar/answer/7638168?hl=en&co=GENIE.Platform%3DDesktop">fill in your working location</a> in your
